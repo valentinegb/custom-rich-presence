@@ -1,2 +1,4 @@
-# custom-rich-presence
-Customize rich presence right inside Discord.
+![banner](assets/banner.png)
+
+# Custom Rich Presence
+Customize your rich presence right inside Discord.
