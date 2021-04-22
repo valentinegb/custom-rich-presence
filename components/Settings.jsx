@@ -123,46 +123,55 @@ export default class Settings extends Component {
 							});
 						}}
 					>
-						<TextInput
-							note="This should be the name of your large image's asset."
-							defaultValue={getSetting("large_image", defaults.large_image)}
-							onChange={(value) => {
-								updateSetting("large_image", value);
-								reloadRichPresence();
-							}}
-						>
-							Large Image
-						</TextInput>
-						<TextInput
-							note="This text will appear as a tooltip when hovering over the large image."
-							defaultValue={getSetting("large_text", defaults.large_text)}
-							onChange={(value) => {
-								updateSetting("large_text", value);
-								reloadRichPresence();
-							}}
-						>
-							Large Text
-						</TextInput>
-						<TextInput
-							note="This should be the name of your small image's asset."
-							defaultValue={getSetting("small_image", defaults.small_image)}
-							onChange={(value) => {
-								updateSetting("small_image", value);
-								reloadRichPresence();
-							}}
-						>
-							Small Image
-						</TextInput>
-						<TextInput
-							note="This text will appear as a tooltip when hovering over the small image."
-							defaultValue={getSetting("small_text", defaults.small_text)}
-							onChange={(value) => {
-								updateSetting("small_text", value);
-								reloadRichPresence();
-							}}
-						>
-							Small Text
-						</TextInput>
+						<FormSection className={getModule("marginBottom40").marginBottom40}>
+							<FormTitle>Large Image</FormTitle>
+
+							<TextInput
+								note="This should be the name of your large image's asset."
+								defaultValue={getSetting("large_image", defaults.large_image)}
+								onChange={(value) => {
+									updateSetting("large_image", value);
+									reloadRichPresence();
+								}}
+							>
+								Asset
+							</TextInput>
+							<TextInput
+								note="This text will appear as a tooltip when hovering over the large image."
+								defaultValue={getSetting("large_text", defaults.large_text)}
+								onChange={(value) => {
+									updateSetting("large_text", value);
+									reloadRichPresence();
+								}}
+							>
+								Text
+							</TextInput>
+						</FormSection>
+
+						<FormSection className={getModule("marginBottom40").marginBottom40}>
+							<FormTitle>Small Image</FormTitle>
+
+							<TextInput
+								note="This should be the name of your small image's asset."
+								defaultValue={getSetting("small_image", defaults.small_image)}
+								onChange={(value) => {
+									updateSetting("small_image", value);
+									reloadRichPresence();
+								}}
+							>
+								Asset
+							</TextInput>
+							<TextInput
+								note="This text will appear as a tooltip when hovering over the small image."
+								defaultValue={getSetting("small_text", defaults.small_text)}
+								onChange={(value) => {
+									updateSetting("small_text", value);
+									reloadRichPresence();
+								}}
+							>
+								Text
+							</TextInput>
+						</FormSection>
 					</Category>
 
 					<Category
