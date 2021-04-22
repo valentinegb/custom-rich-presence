@@ -28,7 +28,7 @@ export default class Settings extends Component {
 			defaults,
 		} = this.props;
 
-		const ConnectedUserPopout = getModuleByDisplayName("ConnectedUserPopout");
+		const UserProfile = getModuleByDisplayName("UserProfile");
 		const { getCurrentUser } = getModule("getCurrentUser");
 
 		return (
@@ -209,7 +209,10 @@ export default class Settings extends Component {
 
 				<div style={{ top: "40px", position: "sticky" }}>
 					<FormItem title="Preview">
-						<ConnectedUserPopout userId={getCurrentUser().id} />
+						<UserProfile user={getCurrentUser()} />
+						{
+							//todo Figure how to get the note to behave in UserPopout so that can be used instead
+						}
 					</FormItem>
 				</div>
 			</Flex>
