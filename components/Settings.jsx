@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 
-import { SwitchItem, TextInput, Category } from "@vizality/components/settings";
+import {
+	SwitchItem,
+	TextInput,
+	Category,
+	FormTitle,
+} from "@vizality/components/settings";
 import { Flex } from "@vizality/components";
+import { getModule } from "@vizality/webpack";
 
 import Preview from "./Preview";
 
@@ -23,6 +29,8 @@ export default class Settings extends Component {
 			reloadRichPresence,
 			defaults,
 		} = this.props;
+
+		const { FormSection } = getModule("FormSection");
 
 		return (
 			<Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.START}>
@@ -55,6 +63,15 @@ export default class Settings extends Component {
 						Show Time
 					</SwitchItem>
 					<TextInput
+						note={
+							<div
+								class={getModule("markup").markup}
+								style={{ color: "var(--header-secondary)" }}
+							>
+								Influences what assets are available for use as images. (Default
+								value: <code class="inline">{defaults.app_id}</code>)
+							</div>
+						}
 						defaultValue={getSetting("app_id", defaults.app_id)}
 						required={true}
 						onChange={(value) => {
@@ -65,6 +82,7 @@ export default class Settings extends Component {
 						Application ID
 					</TextInput>
 					<TextInput
+						note="First line, bold."
 						defaultValue={getSetting("name", defaults.name)}
 						onChange={(value) => {
 							updateSetting("name", value);
@@ -74,6 +92,7 @@ export default class Settings extends Component {
 						Name
 					</TextInput>
 					<TextInput
+						note="Second line unless previous input is empty."
 						defaultValue={getSetting("details", defaults.details)}
 						onChange={(value) => {
 							updateSetting("details", value);
@@ -83,6 +102,7 @@ export default class Settings extends Component {
 						Details
 					</TextInput>
 					<TextInput
+						note="Third line unless any previous inputs are empty."
 						defaultValue={getSetting("state", defaults.state)}
 						onChange={(value) => {
 							updateSetting("state", value);
@@ -156,58 +176,67 @@ export default class Settings extends Component {
 							});
 						}}
 					>
-						<TextInput
-							defaultValue={getSetting("button1", defaults.button1).label}
-							onChange={(val) => {
-								let button1 = getSetting("button1", defaults.button1);
-								button1.label = val;
-								updateSetting("button1", button1);
-								if (button1.url != "") {
-									reloadRichPresence();
-								}
-							}}
-						>
-							Button 1 Text
-						</TextInput>
-						<TextInput
-							defaultValue={getSetting("button1", defaults.button1).url}
-							onChange={(val) => {
-								let button1 = getSetting("button1", defaults.button1);
-								button1.url = val;
-								updateSetting("button1", button1);
-								if (button1.label != "") {
-									reloadRichPresence();
-								}
-							}}
-						>
-							Button 1 Url
-						</TextInput>
-						<TextInput
-							defaultValue={getSetting("button2", defaults.button2).label}
-							onChange={(val) => {
-								let button2 = getSetting("button2", defaults.button2);
-								button2.label = val;
-								updateSetting("button2", button2);
-								if (button2.url != "") {
-									reloadRichPresence();
-								}
-							}}
-						>
-							Button 2 Text
-						</TextInput>
-						<TextInput
-							defaultValue={getSetting("button2", defaults.button2).url}
-							onChange={(val) => {
-								let button2 = getSetting("button2", defaults.button2);
-								button2.url = val;
-								updateSetting("button2", button2);
-								if (button2.label != "") {
-									reloadRichPresence();
-								}
-							}}
-						>
-							Button 2 Url
-						</TextInput>
+						<FormSection className={getModule("marginBottom40").marginBottom40}>
+							<FormTitle>Button 1</FormTitle>
+
+							<TextInput
+								defaultValue={getSetting("button1", defaults.button1).label}
+								onChange={(val) => {
+									let button1 = getSetting("button1", defaults.button1);
+									button1.label = val;
+									updateSetting("button1", button1);
+									if (button1.url != "") {
+										reloadRichPresence();
+									}
+								}}
+							>
+								Text
+							</TextInput>
+							<TextInput
+								defaultValue={getSetting("button1", defaults.button1).url}
+								onChange={(val) => {
+									let button1 = getSetting("button1", defaults.button1);
+									button1.url = val;
+									updateSetting("button1", button1);
+									if (button1.label != "") {
+										reloadRichPresence();
+									}
+								}}
+							>
+								Url
+							</TextInput>
+						</FormSection>
+
+						<FormSection>
+							<FormTitle>Button 2</FormTitle>
+
+							<TextInput
+								defaultValue={getSetting("button2", defaults.button2).label}
+								onChange={(val) => {
+									let button2 = getSetting("button2", defaults.button2);
+									button2.label = val;
+									updateSetting("button2", button2);
+									if (button2.url != "") {
+										reloadRichPresence();
+									}
+								}}
+							>
+								Text
+							</TextInput>
+							<TextInput
+								defaultValue={getSetting("button2", defaults.button2).url}
+								onChange={(val) => {
+									let button2 = getSetting("button2", defaults.button2);
+									button2.url = val;
+									updateSetting("button2", button2);
+									if (button2.label != "") {
+										reloadRichPresence();
+									}
+								}}
+							>
+								Url
+							</TextInput>
+						</FormSection>
 					</Category>
 
 					{!getSetting("sticky_preview", false) && <Preview />}
