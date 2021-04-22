@@ -2,6 +2,7 @@ import React from "react";
 import { Plugin } from "@vizality/entities";
 
 import { getModule } from "@vizality/webpack";
+
 import Settings from "./components/Settings";
 
 const { SET_ACTIVITY } = getModule("INVITE_BROWSER", false);

@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 
-import { getModule, getModuleByDisplayName } from "@vizality/webpack";
-import {
-	SwitchItem,
-	TextInput,
-	Category,
-	FormItem,
-} from "@vizality/components/settings";
+import { SwitchItem, TextInput, Category } from "@vizality/components/settings";
 import { Flex } from "@vizality/components";
+
+import Preview from "./Preview";
 
 export default class Settings extends Component {
 	constructor(props) {
@@ -28,19 +24,27 @@ export default class Settings extends Component {
 			defaults,
 		} = this.props;
 
-		const UserProfile = getModuleByDisplayName("UserProfile");
-		const { getCurrentUser } = getModule("getCurrentUser");
-
 		return (
 			<Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.START}>
 				<Flex.Child
 					grow={2}
-					style={{
-						paddingRight: "20px",
-						borderRight: "thin solid var(--background-modifier-accent)",
-						marginRight: "20px",
-					}}
+					style={
+						getSetting("sticky_preview", false) && {
+							paddingRight: "20px",
+							borderRight: "thin solid var(--background-modifier-accent)",
+							marginRight: "20px",
+						}
+					}
 				>
+					<SwitchItem
+						note="When Sticky Preview is enabled, the preview will stick to the right so that you can always see it."
+						value={getSetting("sticky_preview", false)}
+						onChange={() => {
+							toggleSetting("sticky_preview");
+						}}
+					>
+						Sticky Preview
+					</SwitchItem>
 					<SwitchItem
 						value={getSetting("show_time", true)}
 						onChange={() => {
@@ -205,16 +209,11 @@ export default class Settings extends Component {
 							Button 2 Url
 						</TextInput>
 					</Category>
+
+					{!getSetting("sticky_preview", false) && <Preview />}
 				</Flex.Child>
 
-				<div style={{ top: "40px", position: "sticky" }}>
-					<FormItem title="Preview">
-						<UserProfile user={getCurrentUser()} />
-						{
-							//todo Figure how to get the note to behave in UserPopout so that can be used instead
-						}
-					</FormItem>
-				</div>
+				{getSetting("sticky_preview", false) && <Preview />}
 			</Flex>
 		);
 	}
