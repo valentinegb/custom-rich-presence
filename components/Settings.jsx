@@ -6,7 +6,7 @@ import {
 	Category,
 	FormTitle,
 } from "@vizality/components/settings";
-import { Flex } from "@vizality/components";
+import { Flex, FormNotice } from "@vizality/components";
 import { getModule } from "@vizality/webpack";
 
 import Preview from "./Preview";
@@ -31,6 +31,7 @@ export default class Settings extends Component {
 		} = this.props;
 
 		const { FormSection } = getModule("FormSection");
+		const { marginBottom40 } = getModule("marginBottom40");
 
 		return (
 			<Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.START}>
@@ -44,6 +45,13 @@ export default class Settings extends Component {
 						}
 					}
 				>
+					<FormNotice
+						title="Before Anything"
+						body="Make sure you have game activity enabled or the plugin won't work!"
+						type={FormNotice.Types.PRIMARY}
+						className={marginBottom40}
+					/>
+
 					<SwitchItem
 						note="When Sticky Preview is enabled, the preview will stick to the right so that you can always see it."
 						value={getSetting("sticky_preview", false)}
@@ -123,7 +131,7 @@ export default class Settings extends Component {
 							});
 						}}
 					>
-						<FormSection className={getModule("marginBottom40").marginBottom40}>
+						<FormSection className={marginBottom40}>
 							<FormTitle>Large Image</FormTitle>
 
 							<TextInput
@@ -148,7 +156,7 @@ export default class Settings extends Component {
 							</TextInput>
 						</FormSection>
 
-						<FormSection className={getModule("marginBottom40").marginBottom40}>
+						<FormSection className={marginBottom40}>
 							<FormTitle>Small Image</FormTitle>
 
 							<TextInput
@@ -185,7 +193,7 @@ export default class Settings extends Component {
 							});
 						}}
 					>
-						<FormSection className={getModule("marginBottom40").marginBottom40}>
+						<FormSection className={marginBottom40}>
 							<FormTitle>Button 1</FormTitle>
 
 							<TextInput
