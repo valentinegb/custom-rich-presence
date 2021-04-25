@@ -20,8 +20,8 @@ export default class Preview extends Component {
 					>
 						<HelpMessage messageType={2}>
 							It seems that I am unable to set your Rich Presence, this is
-							likely due to game activity being disabled. Please try enabling
-							it. When done, reload this page.
+							likely due to game activity being disabled. Enable it, then reload
+							this page.
 						</HelpMessage>
 					</div>
 

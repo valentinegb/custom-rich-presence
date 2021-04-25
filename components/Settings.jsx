@@ -6,7 +6,7 @@ import {
 	Category,
 	FormTitle,
 } from "@vizality/components/settings";
-import { Flex, FormNotice } from "@vizality/components";
+import { Flex } from "@vizality/components";
 import { getModule } from "@vizality/webpack";
 
 import Preview from "./Preview";
@@ -45,13 +45,6 @@ export default class Settings extends Component {
 						}
 					}
 				>
-					<FormNotice
-						title="Before Anything"
-						body="Make sure you have game activity enabled or the plugin won't work!"
-						type={FormNotice.Types.PRIMARY}
-						className={marginBottom40}
-					/>
-
 					<SwitchItem
 						note="When Sticky Preview is enabled, the preview will stick to the right so that you can always see it."
 						value={getSetting("sticky_preview", false)}
