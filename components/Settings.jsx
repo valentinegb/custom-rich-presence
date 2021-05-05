@@ -11,6 +11,8 @@ import { getModule } from "@vizality/webpack";
 
 import Preview from "./Preview";
 
+let timeout;
+
 export default class Settings extends Component {
 	constructor(props) {
 		super(props);
@@ -26,12 +28,19 @@ export default class Settings extends Component {
 			getSetting,
 			updateSetting,
 			toggleSetting,
-			reloadRichPresence,
+			setActivity,
 			defaults,
 		} = this.props;
 
 		const { FormSection } = getModule("FormSection");
 		const { marginBottom40 } = getModule("marginBottom40");
+
+		const updateActivity = () => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				setActivity();
+			}, 500);
+		};
 
 		return (
 			<Flex justify={Flex.Justify.BETWEEN} align={Flex.Align.START}>
@@ -58,7 +67,7 @@ export default class Settings extends Component {
 						value={getSetting("show_time", true)}
 						onChange={() => {
 							toggleSetting("show_time");
-							reloadRichPresence();
+							updateActivity();
 						}}
 					>
 						Show Time
@@ -77,7 +86,7 @@ export default class Settings extends Component {
 						required={true}
 						onChange={(value) => {
 							updateSetting("app_id", value);
-							reloadRichPresence();
+							updateActivity();
 						}}
 					>
 						Application ID
@@ -87,7 +96,7 @@ export default class Settings extends Component {
 						defaultValue={getSetting("name", defaults.name)}
 						onChange={(value) => {
 							updateSetting("name", value);
-							reloadRichPresence();
+							updateActivity();
 						}}
 					>
 						Name
@@ -97,7 +106,7 @@ export default class Settings extends Component {
 						defaultValue={getSetting("details", defaults.details)}
 						onChange={(value) => {
 							updateSetting("details", value);
-							reloadRichPresence();
+							updateActivity();
 						}}
 					>
 						Details
@@ -107,7 +116,7 @@ export default class Settings extends Component {
 						defaultValue={getSetting("state", defaults.state)}
 						onChange={(value) => {
 							updateSetting("state", value);
-							reloadRichPresence();
+							updateActivity();
 						}}
 					>
 						State
@@ -132,7 +141,7 @@ export default class Settings extends Component {
 								defaultValue={getSetting("large_image", defaults.large_image)}
 								onChange={(value) => {
 									updateSetting("large_image", value);
-									reloadRichPresence();
+									updateActivity();
 								}}
 							>
 								Asset
@@ -142,7 +151,7 @@ export default class Settings extends Component {
 								defaultValue={getSetting("large_text", defaults.large_text)}
 								onChange={(value) => {
 									updateSetting("large_text", value);
-									reloadRichPresence();
+									updateActivity();
 								}}
 							>
 								Text
@@ -157,7 +166,7 @@ export default class Settings extends Component {
 								defaultValue={getSetting("small_image", defaults.small_image)}
 								onChange={(value) => {
 									updateSetting("small_image", value);
-									reloadRichPresence();
+									updateActivity();
 								}}
 							>
 								Asset
@@ -167,7 +176,7 @@ export default class Settings extends Component {
 								defaultValue={getSetting("small_text", defaults.small_text)}
 								onChange={(value) => {
 									updateSetting("small_text", value);
-									reloadRichPresence();
+									updateActivity();
 								}}
 							>
 								Text
@@ -196,7 +205,7 @@ export default class Settings extends Component {
 									button1.label = val;
 									updateSetting("button1", button1);
 									if (button1.url != "") {
-										reloadRichPresence();
+										updateActivity();
 									}
 								}}
 							>
@@ -209,7 +218,7 @@ export default class Settings extends Component {
 									button1.url = val;
 									updateSetting("button1", button1);
 									if (button1.label != "") {
-										reloadRichPresence();
+										updateActivity();
 									}
 								}}
 							>
@@ -227,7 +236,7 @@ export default class Settings extends Component {
 									button2.label = val;
 									updateSetting("button2", button2);
 									if (button2.url != "") {
-										reloadRichPresence();
+										updateActivity();
 									}
 								}}
 							>
@@ -240,7 +249,7 @@ export default class Settings extends Component {
 									button2.url = val;
 									updateSetting("button2", button2);
 									if (button2.label != "") {
-										reloadRichPresence();
+										updateActivity();
 									}
 								}}
 							>

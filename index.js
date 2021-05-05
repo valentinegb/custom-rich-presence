@@ -5,7 +5,7 @@ import { getModule } from "@vizality/webpack";
 
 import Settings from "./components/Settings";
 
-const { SET_ACTIVITY } = getModule("INVITE_BROWSER", false);
+const { SET_ACTIVITY } = getModule("INVITE_BROWSER");
 
 const defaults = {
 	app_id: "834520573135814757",
@@ -27,31 +27,23 @@ export default class CustomRichPresence extends Plugin {
 	start() {
 		this.registerSettings((props) => (
 			<Settings
-				reloadRichPresence={this.reloadRichPresence.bind(this)}
+				setActivity={this.setActivity.bind(this)}
 				defaults={defaults}
 				{...props}
 			/>
 		));
 
-		setTimeout(() => {
-			SET_ACTIVITY.handler({
-				socket: {
-					id: 100,
-					application: {
-						id: this.settings.get("app_id", defaults.app_id),
-						name: this.settings.get("name", defaults.name),
-					},
-					transport: "ipc",
-				},
-				args: {
-					pid: 10,
-					activity: this.game(),
-				},
-			});
-		}, 1000);
+		this.setActivity();
 	}
 
 	stop() {
+		this.setActivity(true);
+	}
+
+	setActivity(clear) {
+		const button1 = this.settings.get("button1", defaults.button1);
+		const button2 = this.settings.get("button2", defaults.button2);
+
 		SET_ACTIVITY.handler({
 			socket: {
 				id: 100,
@@ -63,56 +55,39 @@ export default class CustomRichPresence extends Plugin {
 			},
 			args: {
 				pid: 10,
-				activity: undefined,
-			},
-		});
-	}
-
-	game() {
-		let rp = {
-			details: this.settings.get("details", defaults.details),
-			state: this.settings.get("state", defaults.state),
-			timestamps: this.settings.get("show_time", true)
-				? {
-						start: Date.now(),
-				  }
-				: undefined,
-			assets: {
-				large_image: this.settings.get("large_image", defaults.large_image),
-				small_image: this.settings.get("small_image", defaults.small_image),
-				large_text: this.settings.get("large_text", defaults.large_text),
-				small_text: this.settings.get("small_text", defaults.small_text),
-			},
-		};
-
-		let buttons = [];
-		if (
-			this.settings.get("button1", defaults.button1).label != "" &&
-			this.settings.get("button1", defaults.button1).url != ""
-		)
-			buttons.push(this.settings.get("button1", defaults.button1));
-		if (
-			this.settings.get("button2", defaults.button2).label != "" &&
-			this.settings.get("button2", defaults.button2).url != ""
-		)
-			buttons.push(this.settings.get("button2", defaults.button2));
-		if (buttons[0]) rp.buttons = buttons;
-		return rp;
-	}
-
-	reloadRichPresence() {
-		SET_ACTIVITY.handler({
-			socket: {
-				id: 100,
-				application: {
-					id: this.settings.get("app_id", defaults.app_id),
-					name: this.settings.get("name", defaults.name),
-				},
-				transport: "ipc",
-			},
-			args: {
-				pid: 10,
-				activity: this.game(),
+				activity: clear
+					? undefined
+					: {
+							state: this.settings.get("state", defaults.state),
+							details: this.settings.get("details", defaults.details),
+							timestamps: this.settings.get("show_time_start", true)
+								? {
+										start: Date.now(),
+								  }
+								: undefined,
+							assets: {
+								large_image: this.settings.get(
+									"large_image",
+									defaults.large_image
+								),
+								large_text: this.settings.get(
+									"large_text",
+									defaults.large_text
+								),
+								small_image: this.settings.get(
+									"small_image",
+									defaults.small_image
+								),
+								small_text: this.settings.get(
+									"small_text",
+									defaults.small_text
+								),
+							},
+							buttons: [
+								button1 != { label: "", url: "" } ? button1 : undefined,
+								button2 != { label: "", url: "" } ? button2 : undefined,
+							],
+					  },
 			},
 		});
 	}
