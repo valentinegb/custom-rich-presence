@@ -201,12 +201,11 @@ export default class Settings extends Component {
 							<TextInput
 								defaultValue={getSetting("button1", defaults.button1).label}
 								onChange={(val) => {
-									let button1 = getSetting("button1", defaults.button1);
-									button1.label = val;
-									updateSetting("button1", button1);
-									if (button1.url != "") {
-										updateActivity();
-									}
+									updateSetting("button1", {
+										label: val,
+										url: getSetting("button1", defaults.button1).url || "",
+									});
+									updateActivity();
 								}}
 							>
 								Text
@@ -214,12 +213,11 @@ export default class Settings extends Component {
 							<TextInput
 								defaultValue={getSetting("button1", defaults.button1).url}
 								onChange={(val) => {
-									let button1 = getSetting("button1", defaults.button1);
-									button1.url = val;
-									updateSetting("button1", button1);
-									if (button1.label != "") {
-										updateActivity();
-									}
+									updateSetting("button1", {
+										label: getSetting("button1", defaults.button1).label || "",
+										url: val,
+									});
+									updateActivity();
 								}}
 							>
 								Url
@@ -232,12 +230,11 @@ export default class Settings extends Component {
 							<TextInput
 								defaultValue={getSetting("button2", defaults.button2).label}
 								onChange={(val) => {
-									let button2 = getSetting("button2", defaults.button2);
-									button2.label = val;
-									updateSetting("button2", button2);
-									if (button2.url != "") {
-										updateActivity();
-									}
+									updateSetting("button2", {
+										label: val,
+										url: getSetting("button2", defaults.button2).url || "",
+									});
+									updateActivity();
 								}}
 							>
 								Text
@@ -245,12 +242,11 @@ export default class Settings extends Component {
 							<TextInput
 								defaultValue={getSetting("button2", defaults.button2).url}
 								onChange={(val) => {
-									let button2 = getSetting("button2", defaults.button2);
-									button2.url = val;
-									updateSetting("button2", button2);
-									if (button2.label != "") {
-										updateActivity();
-									}
+									updateSetting("button2", {
+										label: getSetting("button2", defaults.button2).label || "",
+										url: val,
+									});
+									updateActivity();
 								}}
 							>
 								Url

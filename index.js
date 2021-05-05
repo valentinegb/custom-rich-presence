@@ -44,6 +44,11 @@ export default class CustomRichPresence extends Plugin {
 		const button1 = this.settings.get("button1", defaults.button1);
 		const button2 = this.settings.get("button2", defaults.button2);
 
+		let buttons = [];
+
+		if ((button1.label || button1.url) != "") buttons.push(button1);
+		if ((button2.label || button2.url) != "") buttons.push(button2);
+
 		SET_ACTIVITY.handler({
 			socket: {
 				id: 100,
@@ -83,10 +88,7 @@ export default class CustomRichPresence extends Plugin {
 									defaults.small_text
 								),
 							},
-							buttons: [
-								button1 != { label: "", url: "" } ? button1 : undefined,
-								button2 != { label: "", url: "" } ? button2 : undefined,
-							],
+							buttons: buttons,
 					  },
 			},
 		});
