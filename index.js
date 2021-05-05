@@ -14,7 +14,7 @@ const defaults = {
 	state: "Vizality",
 	large_image: "custom_rich_presence",
 	large_text: "Custom Rich Presence",
-	small_image: "vizality",
+	small_image: "vz",
 	small_text: "Vizality",
 	button1: {
 		label: "Custom Rich Presence",
