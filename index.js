@@ -75,18 +75,16 @@ export default class CustomRichPresence extends Plugin {
 									"large_image",
 									defaults.large_image
 								),
-								large_text: this.settings.get(
-									"large_text",
-									defaults.large_text
-								),
+								large_text:
+									this.settings.get("large_text", defaults.large_text) ||
+									undefined,
 								small_image: this.settings.get(
 									"small_image",
 									defaults.small_image
 								),
-								small_text: this.settings.get(
-									"small_text",
-									defaults.small_text
-								),
+								small_text:
+									this.settings.get("small_text", defaults.small_text) ||
+									undefined,
 							},
 							buttons: buttons,
 					  },
