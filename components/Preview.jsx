@@ -19,9 +19,10 @@ export default class Preview extends Component {
 						style={{ display: "none" }}
 					>
 						<HelpMessage messageType={2}>
-							It seems that I am unable to set your Rich Presence, this is
+							It seems that I am unable to set your rich presence. This is
 							likely due to game activity being disabled. Enable it, then reload
-							this page.
+							this page. (If you're status is set to "Invisible", you need to
+							change that to something else!)
 						</HelpMessage>
 					</div>
 
