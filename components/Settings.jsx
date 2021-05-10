@@ -24,13 +24,8 @@ export default class Settings extends Component {
 	}
 
 	render() {
-		const {
-			getSetting,
-			updateSetting,
-			toggleSetting,
-			setActivity,
-			defaults,
-		} = this.props;
+		const { getSetting, updateSetting, toggleSetting, setActivity, defaults } =
+			this.props;
 
 		const { FormSection } = getModule("FormSection");
 		const { marginBottom40 } = getModule("marginBottom40");
@@ -64,9 +59,9 @@ export default class Settings extends Component {
 						Sticky Preview
 					</SwitchItem>
 					<SwitchItem
-						value={getSetting("show_time", true)}
+						value={getSetting("show_time_start", true)}
 						onChange={() => {
-							toggleSetting("show_time");
+							toggleSetting("show_time_start");
 							updateActivity();
 						}}
 					>
