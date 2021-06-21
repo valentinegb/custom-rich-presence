@@ -1,7 +1,7 @@
 {
 	"name": "Custom Rich Presence",
 	"description": "Customize your rich presence right inside Discord.",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"license": "MIT",
 	"author": {
 		"name": "Vbriese",

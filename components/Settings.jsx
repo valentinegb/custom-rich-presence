@@ -15,6 +15,13 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
   const [ category0Opened, setCategory0Opened ] = useState(false);
   const [ category1Opened, setCategory1Opened ] = useState(false);
 
+  const [ detailsError, setDetailsError ] = useState(false);
+  const [ stateError, setStateError ] = useState(false);
+  const [ largeTextError, setLargeTextError ] = useState(false);
+  const [ smallTextError, setSmallTextError ] = useState(false);
+  const [ button1UrlError, setButton1UrlError ] = useState(false);
+  const [ button2UrlError, setButton2UrlError ] = useState(false);
+
   const updateActivity = () => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
@@ -35,7 +42,7 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
         }
       >
         <SwitchItem
-          note="When Sticky Preview is enabled, the preview will stick to the right so that you can always see it."
+          note='When Sticky Preview is enabled, the preview will stick to the right so that you can always see it.'
           value={getSetting('sticky_preview', false)}
           onChange={() => {
             toggleSetting('sticky_preview');
@@ -44,9 +51,9 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
           Sticky Preview
         </SwitchItem>
         <SwitchItem
-          value={getSetting('show_time_start', true)}
+          value={getSetting('timestamps_start', true)}
           onChange={() => {
-            toggleSetting('show_time_start');
+            toggleSetting('timestamps_start');
             updateActivity();
           }}
         >
@@ -58,20 +65,20 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
               class={getModule('markup').markup}
               style={{ color: 'var(--header-secondary)' }}
             >
-              Influences what assets are available for use as images. (Default value: <code class="inline">{defaults.app_id}</code>)
+              Influences what assets are available for use as images. (Default value: <code class='inline'>{defaults.id}</code>)
             </div>
           }
-          defaultValue={getSetting('app_id', defaults.app_id)}
+          defaultValue={getSetting('id', defaults.id)}
           required={true}
           onChange={(value) => {
-            updateSetting('app_id', value);
+            updateSetting('id', value);
             updateActivity();
           }}
         >
           Application ID
         </TextInput>
         <TextInput
-          note="First line, bold."
+          note='First line, bold.'
           defaultValue={getSetting('name', defaults.name)}
           onChange={(value) => {
             updateSetting('name', value);
@@ -81,20 +88,36 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
           Name
         </TextInput>
         <TextInput
-          note="Second line unless previous input is empty."
+          maxLength={128}
+          note='Second line unless previous input is empty.'
+          error={detailsError && 'Must be at least 2 characters long or empty.'}
           defaultValue={getSetting('details', defaults.details)}
           onChange={(value) => {
-            updateSetting('details', value);
+            if (value.length < 2 && value.length !== 0) {
+              setDetailsError(true);
+              updateSetting('details', '');
+            } else {
+              setDetailsError(false);
+              updateSetting('details', value);
+            }
             updateActivity();
           }}
         >
           Details
         </TextInput>
         <TextInput
-          note="Third line unless any previous inputs are empty."
+          maxLength={128}
+          note='Third line unless any previous inputs are empty.'
+          error={stateError && 'Must be at least 2 characters long or empty.'}
           defaultValue={getSetting('state', defaults.state)}
           onChange={(value) => {
-            updateSetting('state', value);
+            if (value.length < 2 && value.length !== 0) {
+              setStateError(true);
+              updateSetting('state', '');
+            } else {
+              setStateError(false);
+              updateSetting('state', value);
+            }
             updateActivity();
           }}
         >
@@ -102,8 +125,8 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
         </TextInput>
 
         <Category
-          name="Images"
-          description="Select a large/small image and (optionally) define their tooltip text."
+          name='Images'
+          description='Select a large/small image and (optionally) define their tooltip text.'
           opened={category0Opened}
           onChange={() => {
             setCategory0Opened(!category0Opened);
@@ -114,6 +137,7 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
             <FormTitle>Large Image</FormTitle>
 
             <TextInput
+              maxLength={32}
               note="This should be the name of your large image's asset."
               defaultValue={getSetting('large_image', defaults.large_image)}
               onChange={(value) => {
@@ -124,10 +148,18 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
               Asset
             </TextInput>
             <TextInput
-              note="This text will appear as a tooltip when hovering over the large image."
+              maxLength={128}
+              note='This text will appear as a tooltip when hovering over the large image.'
+              error={largeTextError && 'Must be at least 2 characters long or empty.'}
               defaultValue={getSetting('large_text', defaults.large_text)}
               onChange={(value) => {
-                updateSetting('large_text', value);
+                if (value.length < 2 && value.length !== 0) {
+                  setLargeTextError(true);
+                  updateSetting('large_text', '');
+                } else {
+                  setLargeTextError(false);
+                  updateSetting('large_text', value);
+                }
                 updateActivity();
               }}
             >
@@ -139,6 +171,7 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
             <FormTitle>Small Image</FormTitle>
 
             <TextInput
+              maxLength={32}
               note="This should be the name of your small image's asset."
               defaultValue={getSetting('small_image', defaults.small_image)}
               onChange={(value) => {
@@ -149,10 +182,18 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
               Asset
             </TextInput>
             <TextInput
-              note="This text will appear as a tooltip when hovering over the small image."
+              maxLength={128}
+              note='This text will appear as a tooltip when hovering over the small image.'
+              error={smallTextError && 'Must be at least 2 characters long or empty.'}
               defaultValue={getSetting('small_text', defaults.small_text)}
               onChange={(value) => {
-                updateSetting('small_text', value);
+                if (value.length < 2 && value.length !== 0) {
+                  setSmallTextError(true);
+                  updateSetting('small_text', '');
+                } else {
+                  setSmallTextError(false);
+                  updateSetting('small_text', value);
+                }
                 updateActivity();
               }}
             >
@@ -162,8 +203,8 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
         </Category>
 
         <Category
-          name="Buttons"
-          description="Define up to two buttons."
+          name='Buttons'
+          description='Define up to two buttons.'
           opened={category1Opened}
           onChange={() => {
             setCategory0Opened(false);
@@ -174,11 +215,12 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
             <FormTitle>Button 1</FormTitle>
 
             <TextInput
+              maxLength={32}
               defaultValue={getSetting('button1', defaults.button1).label}
-              onChange={(val) => {
+              onChange={(value) => {
                 updateSetting('button1', {
-                  label: val,
-                  url: getSetting('button1', defaults.button1).url || ''
+                  label: value,
+                  url: getSetting('button1', defaults.button1).url
                 });
                 updateActivity();
               }}
@@ -186,12 +228,23 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
               Text
             </TextInput>
             <TextInput
+              maxLength={512}
+              error={button1UrlError && 'Must be a valid URI.'}
               defaultValue={getSetting('button1', defaults.button1).url}
-              onChange={(val) => {
-                updateSetting('button1', {
-                  label: getSetting('button1', defaults.button1).label || '',
-                  url: val
-                });
+              onChange={(value) => {
+                if (!value.startsWith('http') && value.length > 0) {
+                  setButton1UrlError(true);
+                  updateSetting('button1', {
+                    label: getSetting('button1', defaults.button1).label,
+                    url: ''
+                  });
+                } else {
+                  setButton1UrlError(false);
+                  updateSetting('button1', {
+                    label: getSetting('button1', defaults.button1).label,
+                    url: value
+                  });
+                }
                 updateActivity();
               }}
             >
@@ -203,11 +256,12 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
             <FormTitle>Button 2</FormTitle>
 
             <TextInput
+              maxLength={32}
               defaultValue={getSetting('button2', defaults.button2).label}
-              onChange={(val) => {
+              onChange={(value) => {
                 updateSetting('button2', {
-                  label: val,
-                  url: getSetting('button2', defaults.button2).url || ''
+                  label: value,
+                  url: getSetting('button2', defaults.button2).url
                 });
                 updateActivity();
               }}
@@ -215,12 +269,23 @@ export default memo(({ getSetting, updateSetting, toggleSetting, setActivity, de
               Text
             </TextInput>
             <TextInput
+              maxLength={512}
+              error={button2UrlError && 'Must be a valid URI.'}
               defaultValue={getSetting('button2', defaults.button2).url}
-              onChange={(val) => {
-                updateSetting('button2', {
-                  label: getSetting('button2', defaults.button2).label || '',
-                  url: val
-                });
+              onChange={(value) => {
+                if (!value.startsWith('http') && value.length > 0) {
+                  setButton2UrlError(true);
+                  updateSetting('button2', {
+                    label: getSetting('button2', defaults.button2).label,
+                    url: ''
+                  });
+                } else {
+                  setButton2UrlError(false);
+                  updateSetting('button2', {
+                    label: getSetting('button2', defaults.button2).label,
+                    url: value
+                  });
+                }
                 updateActivity();
               }}
             >
